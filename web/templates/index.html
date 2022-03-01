@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/static/base.css">
+		<title>SIPB Office Door</title>
+	</head>
+
+	<body>
+		<img id="fuzzball" src="{{ fuzzball_image }}">
+		<p id="status">
+			The SIPB Office is {{ door_status }} since {{ last_change }}
+		</p>
+
+		<div id="doortable">
+			<table>
+				<thead>
+					<tr>
+						<th>Week of {{ monday }}</th>
+						<th>Monday</th>
+						<th>Tuesday</th>
+						<th>Wednesday</th>
+						<th>Thursday</th>
+						<th>Friday</th>
+						<th>Saturday</th>
+						<th>Sunday</th>
+					</tr>
+				</thead>
+				<tbody>
+					{%- for hour in range(24) %}
+					<tr>
+						<td class="timedef">{{ hour }}:00</td>
+						{% for day in range(7) -%}
+						{% set idx = day * 24 + hour -%}
+						<td class="timeval" style="background-color: hsl(0, 100%, {{ prob_color[idx][1] }}%)">{{ prob_color[idx][0] }}</td>
+						{% endfor %}
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>

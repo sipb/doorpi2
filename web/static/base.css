@@ -1,0 +1,37 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    width: 12.5%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.timedef {
+    text-align: right;
+}
+
+.timeval {
+    text-align: center;
+}
+
+#fuzzball {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 80%;
+    max-width: 500px;
+}
+
+#status {
+    text-align: center;
+}
+
+#doortable {
+    overflow-x: auto;
+}

@@ -1,0 +1,13 @@
+[Unit]
+Description=A daemon to monitor the SIPB door
+Requires=network-online.target nss-lookup.target
+After=network-online.target nss-lookup.target
+
+[Service]
+Type=simple
+ExecStart=python3 /root/sensor/door_sensor.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

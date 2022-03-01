@@ -1,0 +1,4 @@
+# Set up systemd service
+cp door_sensor.service /etc/systemd/system
+systemctl daemon-reload
+systemctl restart door_sensor

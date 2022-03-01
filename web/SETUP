@@ -1,0 +1,12 @@
+# Move needed scripts and files to /srv so that nginx and uwsgi don't have to run as root
+cp -r app.py static templates uwsgi.ini /srv
+chown -R www-data:www-data /srv
+
+# Set up systemd service
+cp door_web.service /etc/systemd/system
+systemctl daemon-reload
+systemctl restart door_web
+
+# Set up nginx
+cp door_web.conf /etc/nginx/conf.d
+systemctl reload nginx

@@ -1,0 +1,21 @@
+Door sensor and website both take config from `/etc/doorpi`, which consists of the database host, user, password, and database name separated by newlines.
+
+The current configuration uses a SQL database from Scripts that is owned by the locker sipb-door. To set up a new database, run the following command:
+"""
+CREATE TABLE door_status (
+    timestamp BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+    status BOOLEAN NOT NULL
+);
+"""
+Note that the timestamp field stores nanoseconds from the Unix epoch, and that status=True means the door was closed at that moment in time.
+
+The door sensor requires the following packages (possibly incomplete):
+ * python3-gpiozero
+ * python3-pymysql
+
+The website requires the following packages (possibly incomplete):
+ * uwsgi
+ * python3-pymysql
+ * python3-flask
+ * uwsgi
+ * uwsgi-plugin-python3

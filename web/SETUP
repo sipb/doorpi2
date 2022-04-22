@@ -5,6 +5,7 @@ chown -R www-data:www-data /srv
 # Set up systemd service
 cp door_web.service /etc/systemd/system
 systemctl daemon-reload
+systemctl enable door_web
 systemctl restart door_web
 
 # Set up nginx

@@ -17,5 +17,5 @@ The website requires the following packages (possibly incomplete):
  * uwsgi
  * python3-pymysql
  * python3-flask
- * uwsgi
  * uwsgi-plugin-python3
+ * nginx

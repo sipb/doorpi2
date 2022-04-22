@@ -1,4 +1,5 @@
 # Set up systemd service
 cp door_sensor.service /etc/systemd/system
 systemctl daemon-reload
+systemctl enable door_sensor
 systemctl restart door_sensor

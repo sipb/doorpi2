@@ -20,11 +20,11 @@
 			</div>
 		</section>
 
-		<div id="doortable">
+		<section id="doortable">
 			<table>
 				<thead>
 					<tr>
-						<th>Week of {{ monday }}</th>
+						<th>Week of<br />{{ monday }}</th>
 						<th>Monday</th>
 						<th>Tuesday</th>
 						<th>Wednesday</th>
@@ -41,7 +41,7 @@
 						{% for day in range(7) -%}
 						{% set idx = day * 24 + hour -%}
 						{% if prob_color[idx] %}
-						<td class="timeval" style="background-color: hsl(135, 100%, {{ prob_color[idx][1] }}%)">{{ prob_color[idx][0] }}</td>
+						<td class="timeval" style="background-color: hsl(135, 100%, {{ 100 - prob_color[idx][1] }}%)">{{ prob_color[idx][0] }}</td>
 						{% else %}
 						<td class="timeval" style="background-color: lightgrey;">N/A</td>
 						{% endif %}
@@ -50,6 +50,6 @@
 					{% endfor %}
 				</tbody>
 			</table>
-		</div>
+		</section>
 	</body>
 </html>

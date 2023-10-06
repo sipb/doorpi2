@@ -8,10 +8,17 @@
 	</head>
 
 	<body>
-		<img id="fuzzball" src="{{ fuzzball_image }}">
-		<p id="status">
-			The SIPB Office is {{ door_status }} since {{ last_change }}
-		</p>
+		<section class="status-box">
+			<img id="fuzzball" src="{{ fuzzball_image }}">
+			<div id="status-container">
+				<h2 id="status">
+					The SIPB Office is <span class="door-{{ door_status }}">{{ door_status }}</span>
+				</h2>
+				<h3 id="last-change">
+					(since {{ last_change }})
+				</h3>
+			</div>
+		</section>
 
 		<div id="doortable">
 			<table>

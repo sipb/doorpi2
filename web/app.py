@@ -113,7 +113,7 @@ def index():
 
     fuzzball_image = f"static/eyes_{'closed' if status else 'open'}.png"
     door_status = "closed" if status else "open"
-    prob_color = [None if prob is None else (trunc(prob * 100), 100 - trunc(prob * 50)) for prob in hourly]
+    prob_color = [None if prob is None else (trunc(prob * 100), trunc(prob * 120)) for prob in hourly]
     return render_template("index.html",
             fuzzball_image=fuzzball_image,
             door_status=door_status,

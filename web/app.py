@@ -37,7 +37,7 @@ def prob_open(start: datetime, end: datetime, splits: int) -> List[float]:
 
     relevant.extend((start + split_size * i, None) for i in range(1, splits + 1))
     # mark the door as shut for any time past now
-    relevant.append((time_ns(), 1))
+    relevant.append((time_ns(), 2))
     relevant.sort()
 
     open_time = 0
@@ -53,14 +53,16 @@ def prob_open(start: datetime, end: datetime, splits: int) -> List[float]:
         
         delta = timestamp - prev_time
 
-        if prev_status:
+        if prev_status == 1:
             closed_time += delta
-        else:
+        elif prev_status == 0:
             open_time += delta
+        else: pass
 
         if status is None:
             # Split marker
-            probs.append(open_time / (open_time + closed_time))
+            clopen_time = open_time + closed_time
+            probs.append(open_time / clopen_time if clopen_time > 0 else None)
             open_time = 0
             closed_time = 0
 
@@ -111,7 +113,7 @@ def index():
 
     fuzzball_image = f"static/eyes_{'closed' if status else 'open'}.png"
     door_status = "closed" if status else "open"
-    prob_color = [(trunc(prob * 100), 100 - trunc(prob * 50)) for prob in hourly]
+    prob_color = [None if prob is None else (trunc(prob * 100), 100 - trunc(prob * 50)) for prob in hourly]
     return render_template("index.html",
             fuzzball_image=fuzzball_image,
             door_status=door_status,

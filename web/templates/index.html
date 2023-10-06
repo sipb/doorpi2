@@ -40,7 +40,11 @@
 						<td class="timedef">{{ hour }}:00</td>
 						{% for day in range(7) -%}
 						{% set idx = day * 24 + hour -%}
+						{% if prob_color[idx] %}
 						<td class="timeval" style="background-color: hsl(0, 100%, {{ prob_color[idx][1] }}%)">{{ prob_color[idx][0] }}</td>
+						{% else %}
+						<td class="timeval" style="background-color: lightgrey;">N/A</td>
+						{% endif %}
 						{% endfor %}
 					</tr>
 					{% endfor %}

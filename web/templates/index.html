@@ -8,16 +8,23 @@
 	</head>
 
 	<body>
-		<img id="fuzzball" src="{{ fuzzball_image }}">
-		<p id="status">
-			The SIPB Office is {{ door_status }} since {{ last_change }}
-		</p>
+		<section class="status-box">
+			<img id="fuzzball" src="{{ fuzzball_image }}">
+			<div id="status-container">
+				<h2 id="status">
+					The SIPB Office is <span class="door-{{ door_status }}">{{ door_status }}</span>
+				</h2>
+				<h3 id="last-change">
+					(since {{ last_change }})
+				</h3>
+			</div>
+		</section>
 
-		<div id="doortable">
+		<section id="doortable">
 			<table>
 				<thead>
 					<tr>
-						<th>Week of {{ monday }}</th>
+						<th>Week of<br />{{ monday }}</th>
 						<th>Monday</th>
 						<th>Tuesday</th>
 						<th>Wednesday</th>
@@ -33,12 +40,16 @@
 						<td class="timedef">{{ hour }}:00</td>
 						{% for day in range(7) -%}
 						{% set idx = day * 24 + hour -%}
-						<td class="timeval" style="background-color: hsl(0, 100%, {{ prob_color[idx][1] }}%)">{{ prob_color[idx][0] }}</td>
+						{% if prob_color[idx] %}
+						<td class="timeval" style="background-color: hsl(135, 100%, {{ 100 - prob_color[idx][1] }}%)">{{ prob_color[idx][0] }}</td>
+						{% else %}
+						<td class="timeval" style="background-color: lightgrey;">N/A</td>
+						{% endif %}
 						{% endfor %}
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
-		</div>
+		</section>
 	</body>
 </html>

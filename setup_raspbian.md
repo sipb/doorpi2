@@ -1,5 +1,6 @@
 This is what I did, more-or-less:
 
+- Set the root password to the office root password.
 - Remove whatever default user it forced you to make.
 - Remove Network Manager:
   ```

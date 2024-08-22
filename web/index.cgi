@@ -6,12 +6,20 @@ from math import trunc
 from time import time_ns
 from typing import List
 
-config_file = open("/etc/doorpi").read().splitlines()
+import configparser
+from pathlib import Path
+from os import environ
+
+from wsgiref.handlers import CGIHandler
+
+mycnf = configparser.ConfigParser()
+mycnf.read( Path(environ['HOME']) / '.my.cnf' )
+
 config = {
-    "host": config_file[0],
-    "user": config_file[1],
-    "passwd": config_file[2],
-    "db": config_file[3],
+    "host": mycnf['client']['host'],
+    "user": mycnf['client']['user'],
+    "passwd": mycnf['client']['password'],
+    "db": 'sipb-door+doorpi',
 }
 
 db = pymysql.connect(**config, use_unicode=True, autocommit=True)
@@ -148,3 +156,5 @@ def embed():
             door_status=door_status,
             last_change=last_change,
         )
+
+CGIHandler().run(app)

@@ -1,28 +1,43 @@
+import subprocess
 import gpiozero
 import pymysql
 import signal
 import time
 
-config_file = open("/etc/doorpi").read().splitlines()
-config = {
-    "host": config_file[0],
-    "user": config_file[1],
-    "passwd": config_file[2],
-    "db": config_file[3],
-}
+def zwrite(zclass, instance, message, signature='I am but a door.', sender='host/sipb-defcon.mit.edu'):
+    subprocess.run([
+        'zwrite', '-q', '-U',
+        '-S', sender, 
+        '-s', signature,
+        '-c', zclass,
+        '-i', instance,
+        '-m', message,
+        ])
+
+with open('/etc/doorpi') as fh:
+    config = dict(zip(['host', 'user', 'passwd', 'db'], fh.read().splitlines()))
 
 db = pymysql.connect(**config, use_unicode=True, autocommit=True)
 
 def update_door_status(status):
+    global db
     # For unknown reasons, Python won't flush stdout when it's connected to systemd's journal
     # unless you specifically tell it to
     print(f"About to update to {status}", flush=True)
     db.ping(reconnect=True)
     cursor = db.cursor()
     cursor.execute("INSERT INTO door_status(timestamp, status) VALUES (%s, %s)", (time.time_ns(), status))
-    print(f"Updated to {status}", flush=True)
+    print(f"DB updated to {status}", flush=True)
+    if status:
+        zwrite('sipb-door', 'closed', 'The door is now closed.')
+        zwrite('sipb-auto', 'door', 'The door is now closed.')
+    else:
+        zwrite('sipb-door', 'open', 'The door is now open.')
+        zwrite('sipb-auto', 'door', 'The door is now open.')
+    print(f"Zephyr updated to {status}", flush=True)
 
 def get_door_status():
+    global db
     print("About to fetch door status")
     db.ping(reconnect=True)
     cursor = db.cursor()
